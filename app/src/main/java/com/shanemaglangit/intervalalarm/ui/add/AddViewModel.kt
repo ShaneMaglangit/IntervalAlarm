@@ -3,11 +3,13 @@ package com.shanemaglangit.intervalalarm.ui.add
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.shanemaglangit.intervalalarm.ui.add.AddFragment.Companion.END_TIME
+import com.shanemaglangit.intervalalarm.ui.add.AddFragment.Companion.START_TIME
 import java.time.LocalTime
 
 class AddViewModel : ViewModel() {
-    val startTime = MutableLiveData<LocalTime>()
-    val endTime = MutableLiveData<LocalTime>()
+    val startTime = MutableLiveData<Long>()
+    val endTime = MutableLiveData<Long>()
     val sunday = MutableLiveData<Boolean>()
     val monday = MutableLiveData<Boolean>()
     val tuesday = MutableLiveData<Boolean>()
@@ -30,8 +32,17 @@ class AddViewModel : ViewModel() {
         _startTimePicker.value = true
     }
 
-    fun setStartTime(startTime: LocalTime?) {
-        if(startTime != null) this.startTime.value = startTime
+    fun changeEndTime() {
+        _endTimePicker.value = true
+    }
+
+    fun setTime(timeInMillis: Long, type: Int) {
+        if(startTime != null) {
+            when(type) {
+                START_TIME -> this.startTime.value = timeInMillis
+                END_TIME -> this.endTime.value = timeInMillis
+            }
+        }
         _startTimePicker.value = false
     }
 }
