@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="addViewModel"
+            type="com.shanemaglangit.intervalalarm.ui.add.AddViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.add.AddFragment">
+
+        <ToggleButton
+            android:id="@+id/toggle_sun"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textOff="@string/sunday"
+            android:textOn="@string/sunday"
+            android:checked="@={addViewModel.sunday}"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toStartOf="@+id/toggle_mon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ToggleButton
+            android:id="@+id/toggle_mon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textOff="@string/monday"
+            android:textOn="@string/monday"
+            android:checked="@={addViewModel.monday}"
+            app:layout_constraintBottom_toBottomOf="@+id/toggle_sun"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toStartOf="@+id/toggle_tue"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/toggle_sun"
+            app:layout_constraintTop_toTopOf="@+id/toggle_sun" />
+
+        <ToggleButton
+            android:id="@+id/toggle_tue"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textOff="@string/tuesday"
+            android:textOn="@string/tuesday"
+            android:checked="@={addViewModel.tuesday}"
+            app:layout_constraintBottom_toBottomOf="@+id/toggle_mon"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toStartOf="@+id/toggle_wed"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/toggle_mon"
+            app:layout_constraintTop_toTopOf="@+id/toggle_mon" />
+
+        <ToggleButton
+            android:id="@+id/toggle_wed"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textOff="@string/wednesday"
+            android:textOn="@string/wednesday"
+            android:checked="@={addViewModel.wednesday}"
+            app:layout_constraintBottom_toBottomOf="@+id/toggle_tue"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toStartOf="@+id/toggle_thu"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/toggle_tue"
+            app:layout_constraintTop_toTopOf="@+id/toggle_tue" />
+
+        <ToggleButton
+            android:id="@+id/toggle_thu"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textOff="@string/thursday"
+            android:textOn="@string/thursday"
+            android:checked="@={addViewModel.thursday}"
+            app:layout_constraintBottom_toBottomOf="@+id/toggle_wed"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toStartOf="@+id/toggle_fri"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/toggle_wed"
+            app:layout_constraintTop_toTopOf="@+id/toggle_wed" />
+
+        <ToggleButton
+            android:id="@+id/toggle_fri"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textOff="@string/friday"
+            android:textOn="@string/friday"
+            android:checked="@={addViewModel.friday}"
+            app:layout_constraintBottom_toBottomOf="@+id/toggle_thu"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toStartOf="@+id/toggle_sat"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/toggle_thu"
+            app:layout_constraintTop_toTopOf="@+id/toggle_thu" />
+
+        <ToggleButton
+            android:id="@+id/toggle_sat"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:textOff="@string/saturday"
+            android:textOn="@string/saturday"
+            android:checked="@={addViewModel.saturday}"
+            app:layout_constraintBottom_toBottomOf="@+id/toggle_fri"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/toggle_fri"
+            app:layout_constraintTop_toTopOf="@+id/toggle_fri" />
+
+        <TextView
+            android:id="@+id/text_start"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/colorAccent"
+            android:padding="16dp"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintDimensionRatio=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toggle_sun"
+            tools:text="07 : 30 : 00 PM" />
+
+        <TextView
+            android:id="@+id/text_end"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/colorAccent"
+            android:padding="16dp"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintDimensionRatio=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_start"
+            tools:text="07 : 30 : 00 PM" />
+
+        <Switch
+            android:id="@+id/switch_snooze"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="14sp"
+            android:text="@string/snooze"
+            android:checked="@={addViewModel.snooze}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_end" />
+
+        <Switch
+            android:id="@+id/switch_vibrate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="14sp"
+            android:text="@string/vibrate"
+            android:checked="@={addViewModel.vibrate}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch_snooze" />
+
+        <Button
+            android:id="@+id/button_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/add_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch_vibrate" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,3 @@
+package com.shanemaglangit.intervalalarm.util
+
+import androidx.databinding.BindingAdapter
