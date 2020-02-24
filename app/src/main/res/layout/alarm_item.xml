@@ -29,7 +29,7 @@
                 android:id="@+id/text_interval"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="5 minutes interval"
+                android:text="@{alarm.interval}"
                 tools:text="5 minutes interval" />
 
             <TextView
@@ -38,7 +38,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
                 android:textSize="30sp"
-                android:text="03:00 PM to 05:00 PM"
+                startTime="@{alarm.startTime}"
+                endTime="@{alarm.endTime}"
                 tools:text="03:00 PM to 05:00 PM" />
 
             <TextView
