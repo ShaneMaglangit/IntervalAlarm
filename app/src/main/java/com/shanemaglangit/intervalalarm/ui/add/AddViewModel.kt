@@ -3,11 +3,17 @@ package com.shanemaglangit.intervalalarm.ui.add
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.shanemaglangit.intervalalarm.data.Alarm
+import com.shanemaglangit.intervalalarm.data.AlarmDatabaseDao
 import com.shanemaglangit.intervalalarm.ui.add.AddFragment.Companion.END_TIME
 import com.shanemaglangit.intervalalarm.ui.add.AddFragment.Companion.START_TIME
+import kotlinx.coroutines.*
 import java.time.LocalTime
 
-class AddViewModel : ViewModel() {
+class AddViewModel(private val databaseDao: AlarmDatabaseDao) : ViewModel() {
+    private val job = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + job)
+
     val startTime = MutableLiveData<Long>()
     val endTime = MutableLiveData<Long>()
     val sunday = MutableLiveData<Boolean>()
@@ -19,6 +25,7 @@ class AddViewModel : ViewModel() {
     val saturday = MutableLiveData<Boolean>()
     val snooze = MutableLiveData<Boolean>()
     val vibrate = MutableLiveData<Boolean>()
+    val interval = MutableLiveData(5)
 
     private val _startTimePicker = MutableLiveData<Boolean>()
     val startTimePicker: LiveData<Boolean>
@@ -44,5 +51,23 @@ class AddViewModel : ViewModel() {
             }
         }
         _startTimePicker.value = false
+    }
+
+    fun addAlarm() {
+        uiScope.launch {
+            val alarm = Alarm(startTime = startTime.value!!, endTime = endTime.value!!, interval = interval.value!!)
+            insert(alarm)
+        }
+    }
+
+    private suspend fun insert(alarm: Alarm) {
+        withContext(Dispatchers.IO) {
+            databaseDao.insert(alarm)
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        job.cancel()
     }
 }

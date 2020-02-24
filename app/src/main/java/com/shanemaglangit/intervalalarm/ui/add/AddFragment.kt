@@ -14,6 +14,8 @@ import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 
 import com.shanemaglangit.intervalalarm.R
+import com.shanemaglangit.intervalalarm.data.AlarmDatabase
+import com.shanemaglangit.intervalalarm.data.AlarmDatabaseDao
 import com.shanemaglangit.intervalalarm.databinding.FragmentAddBinding
 import java.time.LocalTime
 import java.util.*
@@ -21,6 +23,7 @@ import java.util.*
 class AddFragment : Fragment() {
     private lateinit var binding: FragmentAddBinding
     private lateinit var addViewModel: AddViewModel
+    private lateinit var databaseDao: AlarmDatabaseDao
 
     companion object {
         const val START_TIME = 0
@@ -31,8 +34,9 @@ class AddFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        databaseDao = AlarmDatabase.getInstance(context!!).alarmDao()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add, container, false)
-        addViewModel = ViewModelProvider(this).get(AddViewModel::class.java)
+        addViewModel = ViewModelProvider(this, AddViewModelFactory(databaseDao)).get(AddViewModel::class.java)
 
         addViewModel.startTimePicker.setTimePicker(START_TIME)
         addViewModel.endTimePicker.setTimePicker(END_TIME)
@@ -48,7 +52,6 @@ class AddFragment : Fragment() {
                 val calendar = Calendar.getInstance()
                 TimePickerDialog(
                     context,
-                    R.style.Theme_MaterialComponents_DayNight_Dialog,
                     TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                         calendar.set(Calendar.MINUTE, minute)
