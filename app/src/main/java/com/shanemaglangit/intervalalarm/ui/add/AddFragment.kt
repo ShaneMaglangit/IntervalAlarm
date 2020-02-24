@@ -34,13 +34,11 @@ class AddFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        databaseDao = AlarmDatabase.getInstance(context!!).alarmDao()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add, container, false)
+        databaseDao = AlarmDatabase.getInstance(context!!).alarmDao()
         addViewModel = ViewModelProvider(this, AddViewModelFactory(databaseDao)).get(AddViewModel::class.java)
-
         addViewModel.startTimePicker.setTimePicker(START_TIME)
         addViewModel.endTimePicker.setTimePicker(END_TIME)
-
         binding.addViewModel = addViewModel
         binding.lifecycleOwner = this
         return binding.root

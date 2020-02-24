@@ -132,7 +132,7 @@
             android:clickable="true"
             android:focusable="false"
             android:onClick="@{() -> addViewModel.changeStartTime()}"
-            android:padding="16dp"
+            android:padding="8dp"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="30sp"
@@ -155,7 +155,7 @@
             android:clickable="true"
             android:focusable="false"
             android:onClick="@{() -> addViewModel.changeEndTime()}"
-            android:padding="16dp"
+            android:padding="8dp"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="30sp"
@@ -211,12 +211,12 @@
             app:layout_constraintTop_toBottomOf="@+id/switch_snooze" />
 
         <Button
-            android:id="@+id/button_add"
+            android:id="@+id/button_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/add_button"
+            android:text="@string/confirm_button"
             android:onClick="@{() -> addViewModel.addAlarm()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/switch_vibrate" />
