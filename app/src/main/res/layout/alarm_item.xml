@@ -38,15 +38,15 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
                 android:textSize="30sp"
-                startTime="@{alarm.startTime}"
-                endTime="@{alarm.endTime}"
+                app:startTime="@{alarm.startTime}"
+                app:endTime="@{alarm.endTime}"
                 tools:text="03:00 PM to 05:00 PM" />
 
             <TextView
                 android:id="@+id/text_days"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Once only"
+                app:days="@{alarm.days}"
                 tools:text="Once only" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
