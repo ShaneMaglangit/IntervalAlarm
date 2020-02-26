@@ -34,8 +34,8 @@ class AlarmFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_alarm, container, false)
         databaseDao = AlarmDatabase.getInstance(context!!).alarmDao()
         alarmViewModel = ViewModelProvider(this, AlarmViewModelFactory(databaseDao)).get(AlarmViewModel::class.java)
-        alarmViewModel.alarmList.observe(this, Observer { alarmAdapter.submitList(it) })
-        alarmViewModel.toAddFragment.observe(this, Observer {
+        alarmViewModel.alarmList.observe(viewLifecycleOwner, Observer { alarmAdapter.submitList(it) })
+        alarmViewModel.toAddFragment.observe(viewLifecycleOwner, Observer {
             if(it) {
                 findNavController().navigate(R.id.action_alarmFragment_to_addFragment)
                 alarmViewModel.navigateToFragmentComplete()

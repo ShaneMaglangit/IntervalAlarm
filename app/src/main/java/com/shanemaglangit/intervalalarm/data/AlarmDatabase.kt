@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.shanemaglangit.intervalalarm.util.Converter
 
-@Database(entities = [Alarm::class], version = 3, exportSchema = false)
+@Database(entities = [Alarm::class], version = 4, exportSchema = false)
 @TypeConverters(Converter::class)
 abstract class AlarmDatabase : RoomDatabase() {
     abstract fun alarmDao(): AlarmDatabaseDao

@@ -12,6 +12,7 @@ import android.widget.TimePicker
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 
 import com.shanemaglangit.intervalalarm.R
 import com.shanemaglangit.intervalalarm.data.AlarmDatabase
@@ -39,6 +40,12 @@ class AddFragment : Fragment() {
         addViewModel = ViewModelProvider(this, AddViewModelFactory(databaseDao)).get(AddViewModel::class.java)
         addViewModel.startTimePicker.setTimePicker(START_TIME)
         addViewModel.endTimePicker.setTimePicker(END_TIME)
+        addViewModel.toAlarmFragment.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                findNavController().navigate(R.id.action_addFragment_to_alarmFragment)
+                addViewModel.navigateToFragmentComplete()
+            }
+        })
         binding.addViewModel = addViewModel
         binding.lifecycleOwner = this
         return binding.root

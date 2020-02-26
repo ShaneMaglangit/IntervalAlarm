@@ -30,8 +30,8 @@ fun setText(view: TextView, value: Int) {
 }
 
 @BindingAdapter("days")
-fun setDays(view: TextView, value: List<String>?) {
-    if(value != null) {
+fun setDays(view: TextView, value: List<String>) {
+    if(value.isNotEmpty()) {
         var daysInString = ""
         value.forEach {
             daysInString += "$it "

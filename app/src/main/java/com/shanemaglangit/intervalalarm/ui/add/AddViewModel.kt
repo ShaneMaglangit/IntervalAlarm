@@ -35,6 +35,10 @@ class AddViewModel(private val databaseDao: AlarmDatabaseDao) : ViewModel() {
     val endTimePicker: LiveData<Boolean>
         get() = _endTimePicker
 
+    private val _toAlarmFragment = MutableLiveData<Boolean>()
+    val toAlarmFragment: LiveData<Boolean>
+        get() = _toAlarmFragment
+
     fun changeStartTime() {
         _startTimePicker.value = true
     }
@@ -57,7 +61,16 @@ class AddViewModel(private val databaseDao: AlarmDatabaseDao) : ViewModel() {
         uiScope.launch {
             val alarm = Alarm(startTime = startTime.value!!, endTime = endTime.value!!, interval = interval.value!!)
             insert(alarm)
+            navigateToFragment()
         }
+    }
+
+    fun navigateToFragment() {
+        _toAlarmFragment.value = true
+    }
+
+    fun navigateToFragmentComplete() {
+        _toAlarmFragment.value = false
     }
 
     private suspend fun insert(alarm: Alarm) {

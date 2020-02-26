@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class Alarm (
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L,
-    var days: List<String>? = null,
+    var days: List<String> = listOf(),
     var startTime: Long,
     var endTime: Long,
     var interval: Int = 300000,

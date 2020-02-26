@@ -17,5 +17,9 @@
         android:id="@+id/addFragment"
         android:name="com.shanemaglangit.intervalalarm.ui.add.AddFragment"
         android:label="fragment_add"
-        tools:layout="@layout/fragment_add" />
+        tools:layout="@layout/fragment_add" >
+        <action
+            android:id="@+id/action_addFragment_to_alarmFragment"
+            app:destination="@id/alarmFragment" />
+    </fragment>
 </navigation>
