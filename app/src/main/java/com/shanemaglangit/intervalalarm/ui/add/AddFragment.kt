@@ -55,6 +55,12 @@ class AddFragment : Fragment() {
         this.observe(viewLifecycleOwner, Observer {
             if(it) {
                 val calendar = Calendar.getInstance()
+                calendar.timeInMillis =
+                    when(type) {
+                        START_TIME -> addViewModel.startTime.value!!
+                        END_TIME -> addViewModel.endTime.value!!
+                        else -> calendar.timeInMillis
+                    }
                 TimePickerDialog(
                     context,
                     TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->

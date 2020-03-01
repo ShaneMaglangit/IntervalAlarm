@@ -9,6 +9,7 @@ import com.shanemaglangit.intervalalarm.ui.add.AddFragment.Companion.END_TIME
 import com.shanemaglangit.intervalalarm.ui.add.AddFragment.Companion.START_TIME
 import kotlinx.coroutines.*
 import java.time.LocalTime
+import java.util.*
 
 class AddViewModel(private val databaseDao: AlarmDatabaseDao) : ViewModel() {
     private val job = Job()
@@ -38,6 +39,12 @@ class AddViewModel(private val databaseDao: AlarmDatabaseDao) : ViewModel() {
     private val _toAlarmFragment = MutableLiveData<Boolean>()
     val toAlarmFragment: LiveData<Boolean>
         get() = _toAlarmFragment
+
+    init {
+        val calendar = Calendar.getInstance()
+        startTime.value = calendar.timeInMillis
+        endTime.value = calendar.timeInMillis
+    }
 
     fun changeStartTime() {
         _startTimePicker.value = true
