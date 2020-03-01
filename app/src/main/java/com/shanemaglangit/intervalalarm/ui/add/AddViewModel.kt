@@ -59,7 +59,15 @@ class AddViewModel(private val databaseDao: AlarmDatabaseDao) : ViewModel() {
 
     fun addAlarm() {
         uiScope.launch {
-            val alarm = Alarm(startTime = startTime.value!!, endTime = endTime.value!!, interval = interval.value!!)
+            val listOfDays = mutableListOf<String>()
+            if(sunday.value == true) listOfDays.add("Sunday")
+            if(monday.value == true) listOfDays.add("Monday")
+            if(tuesday.value == true) listOfDays.add("Tuesday")
+            if(wednesday.value == true) listOfDays.add("Wednesday")
+            if(thursday.value == true) listOfDays.add("Thursday")
+            if(friday.value == true) listOfDays.add("Friday")
+            if(saturday.value == true) listOfDays.add("Saturday")
+            val alarm = Alarm(days = listOfDays.toList(), startTime = startTime.value!!, endTime = endTime.value!!, interval = interval.value!!)
             insert(alarm)
             navigateToFragment()
         }

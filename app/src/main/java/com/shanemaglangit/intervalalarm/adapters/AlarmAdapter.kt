@@ -1,4 +1,4 @@
-package com.shanemaglangit.intervalalarm.util
+package com.shanemaglangit.intervalalarm.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shanemaglangit.intervalalarm.data.Alarm
 import com.shanemaglangit.intervalalarm.databinding.AlarmItemBinding
 
-class AlarmAdapter(val alarmListener: AlarmListener) : ListAdapter<Alarm, AlarmAdapter.ViewHolder>(AlarmDiffCallback()) {
+class AlarmAdapter(val alarmListener: AlarmListener) : ListAdapter<Alarm, AlarmAdapter.ViewHolder>(
+    AlarmDiffCallback()
+) {
+    public override fun getItem(position: Int): Alarm {
+        return super.getItem(position)
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
@@ -16,7 +21,9 @@ class AlarmAdapter(val alarmListener: AlarmListener) : ListAdapter<Alarm, AlarmA
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        return ViewHolder.from(
+            parent
+        )
     }
 
     class ViewHolder private constructor(val binding: AlarmItemBinding) : RecyclerView.ViewHolder(binding.root){
@@ -31,7 +38,9 @@ class AlarmAdapter(val alarmListener: AlarmListener) : ListAdapter<Alarm, AlarmA
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = AlarmItemBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding)
+                return ViewHolder(
+                    binding
+                )
             }
         }
     }

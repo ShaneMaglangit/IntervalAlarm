@@ -9,7 +9,7 @@
             type="com.shanemaglangit.intervalalarm.data.Alarm" />
         <variable
             name="alarmListener"
-            type="com.shanemaglangit.intervalalarm.util.AlarmListener" />
+            type="com.shanemaglangit.intervalalarm.adapters.AlarmListener" />
     </data>
 
     <androidx.cardview.widget.CardView

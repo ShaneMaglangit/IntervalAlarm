@@ -23,6 +23,14 @@ class AlarmViewModel(private val databaseDao: AlarmDatabaseDao) : ViewModel() {
         uiScope.launch { _alarmList.value = getAllAlarm() }
     }
 
+    fun removeAlarm(id: Long) {
+        uiScope.launch {
+            _alarmList.value = deleteAndGetAlarm(id)
+        }
+    }
+
+    private suspend fun deleteAndGetAlarm(id: Long) = withContext(Dispatchers.IO) { databaseDao.deleteAndGetAlarms(id) }
+
     private suspend fun getAllAlarm() : List<Alarm> = withContext(Dispatchers.IO) { databaseDao.getAllAlarm() }
 
     fun navigateToFragment() {
@@ -31,5 +39,10 @@ class AlarmViewModel(private val databaseDao: AlarmDatabaseDao) : ViewModel() {
 
     fun navigateToFragmentComplete() {
         _toAddFragment.value = false
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        job.cancel()
     }
 }
