@@ -10,7 +10,7 @@ data class Alarm (
     var days: List<String> = listOf(),
     var startTime: Long,
     var endTime: Long,
-    var interval: Int = 300000,
+    var interval: Long = 300000,
     var snooze: Boolean = false,
     var vibrate: Boolean = false
 )

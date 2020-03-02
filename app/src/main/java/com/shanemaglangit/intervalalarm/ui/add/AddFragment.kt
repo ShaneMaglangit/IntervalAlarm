@@ -1,14 +1,16 @@
 package com.shanemaglangit.intervalalarm.ui.add
 
 
+import android.app.AlarmManager
 import android.app.TimePickerDialog
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CalendarView
-import android.widget.TimePicker
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
@@ -18,13 +20,14 @@ import com.shanemaglangit.intervalalarm.R
 import com.shanemaglangit.intervalalarm.data.AlarmDatabase
 import com.shanemaglangit.intervalalarm.data.AlarmDatabaseDao
 import com.shanemaglangit.intervalalarm.databinding.FragmentAddBinding
-import java.time.LocalTime
+import com.shanemaglangit.intervalalarm.service.AlarmService
 import java.util.*
 
 class AddFragment : Fragment() {
     private lateinit var binding: FragmentAddBinding
     private lateinit var addViewModel: AddViewModel
     private lateinit var databaseDao: AlarmDatabaseDao
+    private lateinit var alarmManager: AlarmManager
 
     companion object {
         const val START_TIME = 0
@@ -35,20 +38,28 @@ class AddFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val context = requireContext()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add, container, false)
-        databaseDao = AlarmDatabase.getInstance(context!!).alarmDao()
+        databaseDao = AlarmDatabase.getInstance(context).alarmDao()
+        alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         addViewModel = ViewModelProvider(this, AddViewModelFactory(databaseDao)).get(AddViewModel::class.java)
         addViewModel.startTimePicker.setTimePicker(START_TIME)
         addViewModel.endTimePicker.setTimePicker(END_TIME)
-        addViewModel.toAlarmFragment.observe(viewLifecycleOwner, Observer {
-            if(it) {
+        addViewModel.newAlarmId.observe(viewLifecycleOwner, Observer {
+            if(it != null) {
+                startService()
                 findNavController().navigate(R.id.action_addFragment_to_alarmFragment)
-                addViewModel.navigateToFragmentComplete()
             }
         })
         binding.addViewModel = addViewModel
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    private fun startService() {
+        val alarmIntent = Intent(context, AlarmService::class.java)
+        if(Build.VERSION.SDK_INT >= 26) context!!.startForegroundService(alarmIntent)
+        else context!!.startService(alarmIntent)
     }
 
     private fun LiveData<Boolean>.setTimePicker(type : Int) {

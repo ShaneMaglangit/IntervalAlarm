@@ -9,7 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.shanemaglangit.intervalalarm.MainActivity">
+        <activity android:name=".ActiveAlarmActivity"></activity>
+
+        <service
+            android:name=".service.AlarmService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

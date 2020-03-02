@@ -1,5 +1,7 @@
 package com.shanemaglangit.intervalalarm.ui.add
 
+import android.app.AlarmManager
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,7 +28,7 @@ class AddViewModel(private val databaseDao: AlarmDatabaseDao) : ViewModel() {
     val saturday = MutableLiveData<Boolean>()
     val snooze = MutableLiveData<Boolean>()
     val vibrate = MutableLiveData<Boolean>()
-    val interval = MutableLiveData(5)
+    val interval = MutableLiveData<Long>()
 
     private val _startTimePicker = MutableLiveData<Boolean>()
     val startTimePicker: LiveData<Boolean>
@@ -36,14 +38,15 @@ class AddViewModel(private val databaseDao: AlarmDatabaseDao) : ViewModel() {
     val endTimePicker: LiveData<Boolean>
         get() = _endTimePicker
 
-    private val _toAlarmFragment = MutableLiveData<Boolean>()
-    val toAlarmFragment: LiveData<Boolean>
-        get() = _toAlarmFragment
+    private val _newAlarmId = MutableLiveData<Long>()
+    val newAlarmId: LiveData<Long>
+        get() = _newAlarmId
 
     init {
         val calendar = Calendar.getInstance()
         startTime.value = calendar.timeInMillis
         endTime.value = calendar.timeInMillis
+        interval.value = 5 * 60000
     }
 
     fun changeStartTime() {
@@ -55,13 +58,12 @@ class AddViewModel(private val databaseDao: AlarmDatabaseDao) : ViewModel() {
     }
 
     fun setTime(timeInMillis: Long, type: Int) {
-        if(startTime != null) {
-            when(type) {
-                START_TIME -> this.startTime.value = timeInMillis
-                END_TIME -> this.endTime.value = timeInMillis
-            }
+        when(type) {
+            START_TIME -> this.startTime.value = timeInMillis
+            END_TIME -> this.endTime.value = timeInMillis
         }
         _startTimePicker.value = false
+        _endTimePicker.value = false
     }
 
     fun addAlarm() {
@@ -75,21 +77,12 @@ class AddViewModel(private val databaseDao: AlarmDatabaseDao) : ViewModel() {
             if(friday.value == true) listOfDays.add("Friday")
             if(saturday.value == true) listOfDays.add("Saturday")
             val alarm = Alarm(days = listOfDays.toList(), startTime = startTime.value!!, endTime = endTime.value!!, interval = interval.value!!)
-            insert(alarm)
-            navigateToFragment()
+            _newAlarmId.value = insert(alarm)
         }
     }
 
-    fun navigateToFragment() {
-        _toAlarmFragment.value = true
-    }
-
-    fun navigateToFragmentComplete() {
-        _toAlarmFragment.value = false
-    }
-
-    private suspend fun insert(alarm: Alarm) {
-        withContext(Dispatchers.IO) {
+    private suspend fun insert(alarm: Alarm) : Long {
+        return withContext(Dispatchers.IO) {
             databaseDao.insert(alarm)
         }
     }
