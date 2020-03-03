@@ -16,6 +16,7 @@ import com.shanemaglangit.intervalalarm.data.Alarm
 import com.shanemaglangit.intervalalarm.data.AlarmDatabase
 import com.shanemaglangit.intervalalarm.data.AlarmDatabaseDao
 import kotlinx.coroutines.*
+import timber.log.Timber
 
 class AlarmService : LifecycleService() {
     private lateinit var timer: CountDownTimer
@@ -46,10 +47,6 @@ class AlarmService : LifecycleService() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
 
-        uiScope.launch {
-            alarms.value = getAllAlarm()
-        }
-
         alarms.observe(this, Observer {
             if(it.isNotEmpty()) {
                 currentAlarm = it[0]
@@ -61,21 +58,26 @@ class AlarmService : LifecycleService() {
             }
         })
 
+        loadAlarms()
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    private fun loadAlarms() {
+        uiScope.launch {
+            alarms.value = getAllAlarm()
+        }
     }
 
     private fun getNextAlarm() {
         alarmTime = currentAlarm.startTime
-        while(alarmTime < System.currentTimeMillis()) {
+        while(alarmTime <= System.currentTimeMillis() || alarmTime - System.currentTimeMillis() < 60000) {
             alarmTime += currentAlarm.interval
             if(alarmTime > currentAlarm.endTime) {
                 currentAlarm = alarms.value!![alarms.value!!.indexOf(currentAlarm) + 1]
                 alarmTime = currentAlarm.startTime
-            } else {
-                break
             }
         }
-        startTimer(System.currentTimeMillis() - alarmTime)
+        startTimer(alarmTime - System.currentTimeMillis())
     }
 
     private fun startTimer(alarmTime: Long) {
@@ -84,7 +86,7 @@ class AlarmService : LifecycleService() {
                 val intent = Intent(this@AlarmService, ActiveAlarmActivity::class.java)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
-//                getNextAlarm()
+                getNextAlarm()
             }
             override fun onTick(millisUntilFinished: Long) {}
         }.start()
