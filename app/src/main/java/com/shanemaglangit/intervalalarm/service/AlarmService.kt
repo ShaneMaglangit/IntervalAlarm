@@ -10,13 +10,12 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.shanemaglangit.intervalalarm.ActiveAlarmActivity
+import com.shanemaglangit.intervalalarm.ui.active.ActiveAlarmActivity
 import com.shanemaglangit.intervalalarm.R
 import com.shanemaglangit.intervalalarm.data.Alarm
 import com.shanemaglangit.intervalalarm.data.AlarmDatabase
 import com.shanemaglangit.intervalalarm.data.AlarmDatabaseDao
 import kotlinx.coroutines.*
-import timber.log.Timber
 
 class AlarmService : LifecycleService() {
     private lateinit var timer: CountDownTimer
@@ -53,6 +52,7 @@ class AlarmService : LifecycleService() {
                 createNotificationChannel()
                 startForeground(1, notification)
                 getNextAlarm()
+                startTimer(alarmTime - System.currentTimeMillis())
             } else if(it.isEmpty()) {
                 stopSelf()
             }
@@ -77,7 +77,6 @@ class AlarmService : LifecycleService() {
                 alarmTime = currentAlarm.startTime
             }
         }
-        startTimer(alarmTime - System.currentTimeMillis())
     }
 
     private fun startTimer(alarmTime: Long) {
@@ -87,6 +86,7 @@ class AlarmService : LifecycleService() {
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
                 getNextAlarm()
+                startTimer(alarmTime - System.currentTimeMillis())
             }
             override fun onTick(millisUntilFinished: Long) {}
         }.start()
