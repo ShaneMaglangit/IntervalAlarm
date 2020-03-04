@@ -45,7 +45,7 @@ class AlarmFragment : Fragment() {
                 alarmViewModel.navigateToFragmentComplete()
             }
         })
-        swipeHandler = object: SwipeToDeleteCallback(context!!) {
+        swipeHandler = object: SwipeToDeleteCallback() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val alarm = alarmAdapter.getItem(viewHolder.adapterPosition)
                 alarmViewModel.removeAlarm(alarm.id)
