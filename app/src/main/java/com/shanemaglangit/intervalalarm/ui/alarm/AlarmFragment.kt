@@ -1,6 +1,7 @@
 package com.shanemaglangit.intervalalarm.ui.alarm
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -21,7 +22,9 @@ import com.shanemaglangit.intervalalarm.data.AlarmDatabaseDao
 import com.shanemaglangit.intervalalarm.databinding.FragmentAlarmBinding
 import com.shanemaglangit.intervalalarm.adapters.AlarmAdapter
 import com.shanemaglangit.intervalalarm.adapters.AlarmListener
+import com.shanemaglangit.intervalalarm.service.AlarmService
 import com.shanemaglangit.intervalalarm.util.SwipeToDeleteCallback
+import timber.log.Timber
 
 class AlarmFragment : Fragment() {
     private lateinit var binding: FragmentAlarmBinding
@@ -38,7 +41,10 @@ class AlarmFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_alarm, container, false)
         databaseDao = AlarmDatabase.getInstance(context!!).alarmDao()
         alarmViewModel = ViewModelProvider(this, AlarmViewModelFactory(databaseDao)).get(AlarmViewModel::class.java)
-        alarmViewModel.alarmList.observe(viewLifecycleOwner, Observer { alarmAdapter.submitList(it) })
+        alarmViewModel.alarmList.observe(viewLifecycleOwner, Observer {
+            if(it.isEmpty()) context!!.stopService(Intent(context, AlarmService::class.java))
+            alarmAdapter.submitList(it)
+        })
         alarmViewModel.toAddFragment.observe(viewLifecycleOwner, Observer {
             if(it) {
                 findNavController().navigate(R.id.action_alarmFragment_to_addFragment)

@@ -192,6 +192,7 @@
             android:checked="@={addViewModel.snooze}"
             android:text="@string/snooze"
             android:textSize="14sp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/seekBar" />

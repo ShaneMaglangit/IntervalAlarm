@@ -29,7 +29,7 @@
                 android:id="@+id/text_interval"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{alarm.interval}"
+                app:interval="@{alarm.interval}"
                 tools:text="5 minutes interval" />
 
             <TextView

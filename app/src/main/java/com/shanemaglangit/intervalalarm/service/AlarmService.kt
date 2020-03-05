@@ -16,6 +16,7 @@ import com.shanemaglangit.intervalalarm.data.Alarm
 import com.shanemaglangit.intervalalarm.data.AlarmDatabase
 import com.shanemaglangit.intervalalarm.data.AlarmDatabaseDao
 import kotlinx.coroutines.*
+import timber.log.Timber
 
 class AlarmService : LifecycleService() {
     private lateinit var timer: CountDownTimer
@@ -31,6 +32,7 @@ class AlarmService : LifecycleService() {
 
     companion object {
         const val CHANNEL_ID = "INTERVAL_ALARM"
+        const val MINUTE_IN_MILLIS = 60000
     }
 
     override fun onCreate() {
@@ -70,7 +72,7 @@ class AlarmService : LifecycleService() {
 
     private fun getNextAlarm() {
         alarmTime = currentAlarm.startTime
-        while(alarmTime <= System.currentTimeMillis() || alarmTime - System.currentTimeMillis() < 60000) {
+        while(alarmTime <= System.currentTimeMillis() || alarmTime - System.currentTimeMillis() < MINUTE_IN_MILLIS) {
             alarmTime += currentAlarm.interval
             if(alarmTime > currentAlarm.endTime) {
                 currentAlarm = alarms.value!![alarms.value!!.indexOf(currentAlarm) + 1]
@@ -79,8 +81,8 @@ class AlarmService : LifecycleService() {
         }
     }
 
-    private fun startTimer(alarmTime: Long) {
-        timer = object: CountDownTimer(alarmTime, alarmTime) {
+    private fun startTimer(triggerTime: Long) {
+        timer = object: CountDownTimer(triggerTime, triggerTime) {
             override fun onFinish() {
                 val intent = Intent(this@AlarmService, ActiveAlarmActivity::class.java)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
